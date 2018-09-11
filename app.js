@@ -19,9 +19,19 @@ app.use(express.static('public'));
 
 // connecting giphy api
 app.get('/', function (req, res) {
+    console.log(req)
+    if (req.query.term) {
   giphy.search(req.query.term, function (err, response) {
     res.render('home', {gifs: response.data})
+    console.log(response);
   });
+}
+    else {
+        giphy.trending(function (err, response) {
+            res.render('home', {gifs: response.data})
+            console.log(response);
+        })
+    }
 });
 
 // get hello gif
@@ -41,4 +51,3 @@ app.get('/greetings/:name', function (req, res) {
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
-app.js
